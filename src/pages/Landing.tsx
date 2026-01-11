@@ -1,11 +1,13 @@
 import SearchBar from "@/commonComponent/SearchBar"
 import { Skeleton } from "@/components/ui/skeleton"
-
 import first from '@/assets/first.jpg'
 import second from '@/assets/second.jpg'
 import third from '@/assets/third.jpg'
 import four from '@/assets/four.jpg'
 import { useEffect, useState } from "react"
+import Header from "@/commonComponent/Header"
+import { Input } from "@/components/ui/input"
+import TemplateViewModel from "@/commonComponent/TemplateViewModel"
 
 interface ImageDataType {
   id: number,
@@ -15,13 +17,19 @@ interface ImageDataType {
 
 const Landing = () => {
   const [images, setImages] = useState<ImageDataType[]>([])
+  const [isActive, setActive] = useState<boolean>(false)
+  const [data, setData] = useState<ImageDataType | null>(null)
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   useEffect(() => {
     setTimeout(() => {
       setImages([
         {
           id: 1,
-          title: "Goku with vegeta fight",
+          title: "Goku with vegeta fight Goku with vegeta fight Goku with vegeta fight",
           url: first
         },
         {
@@ -63,8 +71,16 @@ const Landing = () => {
     }, 3000);
   }, [])
   return (
-    <div className="mt-2.5">
-      <SearchBar />
+    <div>
+      <Header />
+
+      <Input placeholder="What are you looking for?" className="shadow-md my-1" onClick={() => setActive(true)} />
+
+      {
+        isActive && (
+          <SearchBar setAcitve={setActive} />
+        )
+      }
 
       {
         images?.length === 0 ? <>
@@ -95,14 +111,13 @@ const Landing = () => {
         </> : (
           <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 mt-4">
             {
-
               images?.map((myimg) => {
                 return (
-                  <div className="relative group overflow-hidden rounded-lg cursor-pointer">
+                  <div className="relative group overflow-hidden rounded-lg cursor-pointer" onClick={() => setData({ id: myimg?.id, title: myimg?.title, url: myimg?.url })}>
                     <img
                       className="w-full rounded-lg"
                       src={myimg?.url}
-                      alt="images"
+                      alt={myimg?.title}
                     />
 
                     {/* Black overlay */}
@@ -118,6 +133,13 @@ const Landing = () => {
               })
             }
           </div>
+        )
+      }
+
+      {/* for template model view */}
+      {
+        data && (
+          <TemplateViewModel setData={setData} />
         )
       }
     </div>)
