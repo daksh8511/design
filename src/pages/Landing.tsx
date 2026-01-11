@@ -9,10 +9,19 @@ import Header from "@/commonComponent/Header"
 import { Input } from "@/components/ui/input"
 import TemplateViewModel from "@/commonComponent/TemplateViewModel"
 
-interface ImageDataType {
+type TemplateType =
+  | 'presentation'
+  | 'poster'
+  | 'instaPost'
+  | 'fbPost'
+  | 'card'
+  | 'banner';
+
+export interface ImageDataType {
   id: number,
   title: string,
   url: string
+  type: TemplateType;
 }
 
 const Landing = () => {
@@ -30,42 +39,50 @@ const Landing = () => {
         {
           id: 1,
           title: "Goku with vegeta fight Goku with vegeta fight Goku with vegeta fight",
-          url: first
+          url: first,
+          type: 'presentation'
         },
         {
           id: 2,
           title: "Little goku with dragon",
-          url: second
+          url: second,
+          type: 'poster'
         },
         {
           id: 3,
           title: "Prime vegeta",
-          url: third
+          url: third,
+          type: 'instaPost'
         },
         {
           id: 4,
           title: "Dramer goku wish to dragon",
-          url: four
+          url: four,
+          type: 'fbPost'
         },
         {
           id: 5,
           title: "Super goku",
-          url: second
+          url: second,
+          type: 'card'
         },
         {
           id: 6,
           title: "New goku with vegeta",
-          url: first
+          url: first,
+          type: 'banner'
         },
         {
           id: 7,
           title: "Goku with vegeta fight",
-          url: third
+          url: third,
+          type: 'fbPost'
         },
         {
           id: 8,
           title: "Goku with vegeta fight",
-          url: second
+          url: second,
+          type: 'instaPost'
         },
       ])
     }, 3000);
@@ -113,7 +130,7 @@ const Landing = () => {
             {
               images?.map((myimg) => {
                 return (
-                  <div className="relative group overflow-hidden rounded-lg cursor-pointer" onClick={() => setData({ id: myimg?.id, title: myimg?.title, url: myimg?.url })}>
+                  <div className="relative group overflow-hidden rounded-lg cursor-pointer" onClick={() => setData({ id: myimg?.id, title: myimg?.title, url: myimg?.url, type: myimg?.type })}>
                     <img
                       className="w-full rounded-lg"
                       src={myimg?.url}
@@ -139,7 +156,7 @@ const Landing = () => {
       {/* for template model view */}
       {
         data && (
-          <TemplateViewModel setData={setData} />
+          <TemplateViewModel setData={setData} data={data} />
         )
       }
     </div>)
